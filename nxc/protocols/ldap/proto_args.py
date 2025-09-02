@@ -40,8 +40,8 @@ def proto_args(parser, parents):
     bgroup = ldap_parser.add_argument_group("Bloodhound Scan", "Options to play with Bloodhoud")
     bgroup.add_argument("--bloodhound", action="store_true", help="Perform a Bloodhound scan")
     bgroup.add_argument("-c", "--collection", default="Default", help="Which information to collect. Supported: Group, LocalAdmin, Session, Trusts, Default, DCOnly, DCOM, RDP, PSRemote, LoggedOn, Container, ObjectProps, ACL, All. You can specify more than one by separating them with a comma")
-    bgroup.add_argument("--dc", default="Default", help="Override the DC")
-    bgroup.add_argument("--gc", default="Default", help="Override the GC")
-    bgroup.add_argument("--channel-binding", default="Default", help="Wheter or not to use Channel Binding")
+    bgroup.add_argument("--dc", help="Override the DC")
+    bgroup.add_argument("--gc", help="Override the GC")
+    bgroup.add_argument("--channel-binding", action="store_true", help="Wheter or not to use Channel Binding")
 
     return parser
