@@ -9,7 +9,7 @@ from bloodhound.enumeration.domains import DomainEnumerator
 
 
 class BloodHound:
-    def __init__(self, ad, hostname, host, port):
+    def __init__(self, ad, hostname, host, port, use_ldaps=False, use_channel_binding=False):
         self.ad = ad
         self.ldap = None
         self.pdc = None

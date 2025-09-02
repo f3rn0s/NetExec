@@ -1568,6 +1568,9 @@ class ldap(connection):
             break  # Only process first policy result
 
     def bloodhound(self):
+        use_ldaps = "ldaps" if self.port == 636 else "ldap"
+        use_channel_binding = False if not self.args.collection else self.args.collection
+
         # Check which version is desired
         use_bhce = self.config.getboolean("BloodHound-CE", "bhce_enabled", fallback=False)
         package_name, version, is_ce = get_bloodhound_info()
@@ -1609,6 +1612,7 @@ class ldap(connection):
             aeskey=self.aesKey,
             kdc=self.kdcHost,
             auth_method="auto",
+            ldap_channel_binding=self.use_channel_binding
         )
         ad = AD(
             auth=auth,
@@ -1616,7 +1620,15 @@ class ldap(connection):
             nameserver=self.args.dns_server,
             dns_tcp=self.args.dns_tcp,
             dns_timeout=self.args.dns_timeout,
+            use_ldaps=self.use_ldaps
         )
+
+        if self.args.gc:
+            ad.override_gc(self.args.gc)
+
+        if self.args.dc:
+            ad.override_dc(self.args.dc)
+
         collect = resolve_collection_methods("Default" if not self.args.collection else self.args.collection)
         if not collect:
             return None
